@@ -1,8 +1,8 @@
 import test from "tape"
 import factory from "../src"
 import path from 'path'
-import { style, plugins, merge, styleSheet } from 'glamor'
-import Component from './Component'
+import { style, plugins, merge, styleSheet, flush } from 'glamor'
+import React from 'react'
 
 const definition = { 
   selector: '[data-css-1lyca4j]', 
@@ -29,8 +29,8 @@ test('warns about misusage of factory', (t) => {
   t.end()
 })
 
-test('finds functionName and fileName', (t) => {
-  t.plan(3)
+test('finds functionName and fileName for style defined inside the component', (t) => {
+  t.plan(4)
   const formatter = (file, func) => {
     t.equal(func, 'Component')
     t.equal(file, path.join(__dirname, 'Component.js'))
@@ -38,12 +38,34 @@ test('finds functionName and fileName', (t) => {
   }
   const plugin = factory(formatter)
   plugins.add(plugin)
+  const Component = require('./Component.js').default
   Component()
+  t.equal(styleSheet.rules().length, 1)
   const rule = /^\[.*?\] (.*)$/.exec(styleSheet.rules()[0].cssText)[1]
   t.equal(rule, '{ color:red;-glamor-component:Component; }')
   
   // teardown
   plugins.remove(plugin)
-  styleSheet.flush()
+  flush()
+  t.end()
+})
+ 
+test('finds fileName for style defined outside the component', (t) => {
+  t.plan(3)
+  const formatter = (file, func) => {
+    t.equal(file, path.join(__dirname, 'ComponentExternalStyle.js'))
+    return 'ComponentExternalStyle'
+  }
+  const plugin = factory(formatter)
+  plugins.add(plugin)
+  const ComponentExternalStyle = require('./ComponentExternalStyle.js').default
+  ComponentExternalStyle()
+  t.equal(styleSheet.rules().length, 1)
+  const rule = /^\[.*?\] (.*)$/.exec(styleSheet.rules()[0].cssText)[1]
+  t.equal(rule, '{ color:red;-glamor-component:ComponentExternalStyle; }')
+  
+  // teardown
+  plugins.remove(plugin)
+  flush()
   t.end()
 })

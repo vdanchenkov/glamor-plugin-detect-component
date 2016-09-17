@@ -4,7 +4,7 @@ let warned = false
 
 const findComponent = (stacktrace, formatter) => {
   for(let frame of stacktrace.slice(2)) {
-    if (frame.fileName.indexOf('/glamor/') === -1 && frame.fileName.indexOf('(native)')) {
+    if (frame.fileName.indexOf('/glamor/') === -1 && frame.fileName.indexOf('(native)') === -1) {
       return formatter(frame.fileName, frame.functionName)
     }
   }
@@ -12,7 +12,7 @@ const findComponent = (stacktrace, formatter) => {
 }
 
 export const defaultFormatter = (fileName, functionName) => {
-  const match = /([^/]*)(?:\/index.js)?\?$/.exec(fileName)
+  const match = /([^/]*)(?:\/index.js)?\??$/.exec(fileName)
   return match ? match[1] : null
 }
 
