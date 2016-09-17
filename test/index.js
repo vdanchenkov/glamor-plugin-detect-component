@@ -1,5 +1,8 @@
 import test from "tape"
 import factory from "../src"
+import path from 'path'
+import { style, plugins, merge, styleSheet } from 'glamor'
+import Component from './Component'
 
 const definition = { 
   selector: '[data-css-1lyca4j]', 
@@ -23,5 +26,24 @@ test('warns about misusage of factory', (t) => {
   factory(definition)
   factory(definition)
   console.warn = warn
+  t.end()
+})
+
+test('finds functionName and fileName', (t) => {
+  t.plan(3)
+  const formatter = (file, func) => {
+    t.equal(func, 'Component')
+    t.equal(file, path.join(__dirname, 'Component.js'))
+    return 'Component'
+  }
+  const plugin = factory(formatter)
+  plugins.add(plugin)
+  Component()
+  const rule = /^\[.*?\] (.*)$/.exec(styleSheet.rules()[0].cssText)[1]
+  t.equal(rule, '{ color:red;-glamor-component:Component; }')
+  
+  // teardown
+  plugins.remove(plugin)
+  styleSheet.flush()
   t.end()
 })

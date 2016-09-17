@@ -1,4 +1,4 @@
-<big><h1 align="center">(Work in progress) glamor-plugin-detect-component</h1></big>
+<big><h1 align="center">(Work In Progress) glamor-plugin-detect-component</h1></big>
 
 <p align="center">
   <a href="https://npmjs.org/package/glamor-plugin-detect-component">

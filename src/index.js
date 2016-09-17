@@ -3,8 +3,8 @@ import parser from 'error-stack-parser'
 let warned = false
 
 const findComponent = (stacktrace, formatter) => {
-  for(let frame of stacktrace) {
-    if (frame.fileName.indexOf('glamor') === -1 && frame.fileName.indexOf('(native)')) {
+  for(let frame of stacktrace.slice(2)) {
+    if (frame.fileName.indexOf('/glamor/') === -1 && frame.fileName.indexOf('(native)')) {
       return formatter(frame.fileName, frame.functionName)
     }
   }
@@ -32,7 +32,7 @@ export default (formatter = defaultFormatter) => {
     Error.stackTraceLimit = Math.max(storedLimit, 20)
     // TODO throw to make it work in IE
     const stack = parser.parse(new Error())
-    const componentName = findComponent(stack)
+    const componentName = findComponent(stack, formatter)
     if (componentName) {
       style = { ...style, 'GlamorComponent': componentName }
     }
