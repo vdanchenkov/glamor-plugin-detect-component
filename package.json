@@ -1,7 +1,7 @@
 {
   "name": "glamor-plugin-detect-component",
   "version": "0.1.0",
-  "description": "",
+  "description": "Glamor plugin. Detects and displays component where style was defined.",
   "main": "dist/index.js",
   "files": [
     "bin/",

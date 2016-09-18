@@ -70,6 +70,8 @@ plugins.add(detectComponent((fileName, functionName) => {
 
 It is best to use [glamor-plugin-extract-to-comment](https://www.npmjs.com/package/glamor-plugin-extract-to-comment) plugin for better readability. In snippet above it extracts GlamorComponent and removes it from style object. Take a note that glamor plugins execute in reverse order. Last added plugin will run first.
 
+<img src="screenshot.png" width="950"/>
+
 ## Chrome Canary
 Latest version of Chrome Canary implements tail call optimization. It prevents component detection for root elements of your components. 
 
