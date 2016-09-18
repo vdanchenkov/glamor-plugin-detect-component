@@ -102,6 +102,9 @@ var App = function App() {
 };
 ```
 
+## Supported browsers
+Tested in Chrome Canary and Firefox. Feel free to file an issue if it does not work in a browser you need to use in development.
+
 ## License
 
 MIT © [Vladimir Danchenkov](http://github.com/vdanchenkov)
