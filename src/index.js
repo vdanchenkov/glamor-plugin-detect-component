@@ -12,7 +12,7 @@ const findComponent = (stacktrace, formatter) => {
 }
 
 export const defaultFormatter = (fileName, functionName) => {
-  const match = /([^/]*)(?:\/index.js)?\??$/.exec(fileName)
+  const match = /([^/]*?)(?:\/index.js)?\??$/.exec(fileName)
   return match ? match[1] : null
 }
 
